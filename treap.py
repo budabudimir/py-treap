@@ -41,6 +41,14 @@ class Treap(object):
    def contains(self, value):
       return Treap._contains(self.root, value)
 
+   def merge(self, other):
+      ''' 
+      Works only if every element in other thee is bigger than 
+      first tree.
+      Works in O(log n)
+      '''
+      self.root = Treap._merge(self.root, other.root)
+
 
    @staticmethod
    def cmp(A, B):
@@ -100,6 +108,18 @@ class Treap(object):
          assert False, "Impossible case"
 
       return node
+
+   @staticmethod
+   def _merge(A, B):
+      if A is None: return B
+      if B is None: return A
+
+      if A.priority < B.priority:
+         B.left = _merge(A, B.left)
+         return B
+      else:
+         A.right = _merge(A.right, B)
+         return A
 
    @staticmethod
    def _rotateLeft(node):
