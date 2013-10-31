@@ -42,11 +42,6 @@ class Treap(object):
       return Treap._contains(self.root, value)
 
    def merge(self, other):
-      ''' 
-      Works only if every element in other thee is bigger than 
-      first tree.
-      Works in O(log n)
-      '''
       self.root = Treap._merge(self.root, other.root)
 
 
@@ -156,30 +151,6 @@ class Treap(object):
 
 
 def main():
-
-   LEN = 10 if len(sys.argv) == 1 else int(sys.argv[1])
-   PRT = 20
-
-   lst = [i for i in xrange(LEN)]
-   random.shuffle(lst)
-
-   if LEN < PRT: print lst
-
-   t = Treap()
-   for value in lst:
-      t.insert(value)
-
-   if LEN < PRT: print t.inorder()
-
-   print "OK" if t.inorder() == sorted(lst) else "WA"
-
-   x = random.randint(0, LEN)
-   print x
-   t.delete(x)
-
-   if LEN < PRT: print t.inorder()
-
-   print "OK" if t.inorder() == range(x) + range(x + 1, LEN) else "WA"
 
    return 0
 
