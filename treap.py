@@ -61,7 +61,6 @@ class Treap(object):
       else:
          return +1
 
-
    @staticmethod
    def _contains(node, value):
       if node is None:
@@ -115,10 +114,10 @@ class Treap(object):
       if B is None: return A
 
       if A.priority < B.priority:
-         B.left = _merge(A, B.left)
+         B.left = Treap._merge(A, B.left)
          return B
       else:
-         A.right = _merge(A.right, B)
+         A.right = Treap._merge(A.right, B)
          return A
 
    @staticmethod
