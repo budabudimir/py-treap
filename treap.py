@@ -5,6 +5,7 @@ import random
 
 class TreapNode(object):
    MAX_RAND = 10000000
+   INFINITY = MAX_RAND + 1
 
    def __init__(self, value, priority=None):
       self.value = value
@@ -37,6 +38,8 @@ class Treap(object):
    def delete(self, value):
       if self.contains(value):
          self.root = Treap._delete(self.root, value)
+      else:
+         raise AttributeError("Value does not exist")
 
    def contains(self, value):
       return Treap._contains(self.root, value)
@@ -44,10 +47,21 @@ class Treap(object):
    def merge(self, other):
       self.root = Treap._merge(self.root, other.root)
 
+   def split(self, value):
+      self.root = Treap._insert(self.root, value, TreapNode.INFINITY)
+
+      right = Treap()
+      right.root = self.root.right
+      self.root = self.root.left
+
+      return right
+      
 
    @staticmethod
    def cmp(A, B):
-      if A is None and B is None: return 0
+      if A is None and B is None: 
+         return 0
+
       if A is None: return +1
       if B is None: return -1
 
