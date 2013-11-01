@@ -18,8 +18,6 @@ class MutableTreap(Treap):
    def delete(self, value):
       if self.contains(value):
          self.root = MutableTreap._delete(self.root, value)
-      else:
-         raise AttributeError("Value does not exist")
 
    def merge(self, other):
       self.root = MutableTreap._merge(self.root, other.root)
@@ -33,8 +31,6 @@ class MutableTreap(Treap):
 
       return right
       
-
-
 
    @staticmethod
    def _insert(node, value, priority=None):
@@ -52,6 +48,7 @@ class MutableTreap(Treap):
 
       return node
 
+
    @staticmethod
    def _delete(node, value):
       if node.left is None and node.right is None:
@@ -63,13 +60,12 @@ class MutableTreap(Treap):
       elif Treap.cmp(node.left, node.right) > 0: 
          node = Treap._rotateLeft(node)
          node.left = MutableTreap._delete(node.left, value)
-      elif Treap.cmp(node.left, node.right) < 0:
+      else:
          node = Treap._rotateRight(node)
          node.right = MutableTreap._delete(node.right, value)
-      else:
-         assert False, "Impossible case"
 
       return node
+
 
    @staticmethod
    def _merge(A, B):

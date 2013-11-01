@@ -21,6 +21,28 @@ class ImmutableTreap(Treap):
 
       return ret
 
+   def delete(self, value):
+      if not self.contains(value):
+         return self
+
+      t = ImmutableTreap()
+      t.root = ImmutableTreap._delete(self.root, value)
+      return t
+
+   def merge(self, other):
+      t = ImmutableTreap()
+      t.root = ImmutableTreap._merge(self.root, other.root)
+      return t
+
+   def split(self, value):
+      root = ImmutableTreap._insert(self.root, value, TreapNode.INFINITY)
+
+      left = ImmutableTreap()
+      right = ImmutableTreap()
+      left.root, right.root = root.left, root.right
+
+      return left, right
+
 
    @staticmethod
    def _insert(node, value, priority=None):
@@ -40,41 +62,45 @@ class ImmutableTreap(Treap):
 
       return new
 
+   @staticmethod
+   def _delete(node, value, create=True):
+      if node.left is None and node.right is None:
+         return None
+
+      new = TreapNode(node=node)
+
+      if node.value > value:
+         new.left = ImmutableTreap._delete(new.left, value)
+      elif node.value < value:
+         new.right = ImmutableTreap._delete(new.right, value)
+      elif Treap.cmp(node.left, node.right) > 0:
+         new.right = TreapNode(node=new.right)
+         new = Treap._rotateLeft(new)
+         new.left = ImmutableTreap._delete(new.left, value, False)
+      else:
+         new.left = TreapNode(node=new.left)
+         new = Treap._rotateRight(new)
+         new.right = ImmutableTreap._delete(new.right, value, False)
+
+      return new
+
 
    @staticmethod
-   def _delete(node, value):
-      if node.left is None and node.right is None:
-         node = None
-      elif node.value > value:
-         node.left = ImmutableTreap._delete(node.left, value)
-      elif node.value < value:
-         node.right = ImmutableTreap._delete(node.right, value)
-      elif Treap.cmp(node.left, node.right) > 0: 
-         node.right = TreapNode(node=node.right)
-         node = Treap._rotateLeft(node)
-         node.left = ImmutableTreap._delete(node.left, value)
-      elif Treap.cmp(node.left, node.right) < 0:
-         node.left = TreapNode(node=node.left)
-         node = Treap._rotateRight(node)
-         node.right = ImmutableTreap._delete(node.right, value)
-      else:
-         assert False, "Impossible case"
+   def _merge(A, B):
+      if A is None: return B
+      if B is None: return A
 
-      return node
+      if A.priority < B.priority:
+         R = TreapNode(node=B)
+         R.left = ImmutableTreap._merge(A, B.left)
+      else:
+         R = TreapNode(node=A)
+         R.right = ImmutableTreap._merge(A.right, B)
+
+      return R
+
 
 def main():
-   t = ImmutableTreap()
-   x = t.insert(1)
-   y = x.insert(2)
-
-   lst = []
-   for i in range(3, 10):
-      lst.append(y.insert(i))
-
-   for tree in lst:
-      print tree.preorder()
-
-   print x.contains(1)
 
    return 0
 
