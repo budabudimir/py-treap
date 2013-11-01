@@ -41,13 +41,13 @@ class Treap(object):
       raise NotImplementedError
 
    def contains(self, value):
-      return Treap._contains(self.root, value)
+      return Treap.__contains(self.root, value)
 
    def preorder(self):
-      return Treap._preorder(self.root)
+      return Treap.__preorder(self.root)
 
    def inorder(self):
-      return Treap._inorder(self.root)
+      return Treap.__inorder(self.root)
 
    @staticmethod
    def cmp(A, B):
@@ -60,48 +60,48 @@ class Treap(object):
       return A.priority - B.priority
 
    @staticmethod
-   def _contains(node, value):
+   def __contains(node, value):
       if node is None:
          return False
 
       if node.value < value:
-         return Treap._contains(node.right, value)
+         return Treap.__contains(node.right, value)
       elif node.value > value:
-         return Treap._contains(node.left, value)
+         return Treap.__contains(node.left, value)
 
       return True
 
    @staticmethod
-   def _rotateLeft(node):
+   def __rotateLeft(node):
       tmp = node.right.left
       node.right.left, node = node, node.right
       node.left.right = tmp
       return node
 
    @staticmethod
-   def _rotateRight(node):
+   def __rotateRight(node):
       tmp = node.left.right
       node.left.right, node = node, node.left
       node.right.left = tmp
       return node
 
    @staticmethod
-   def _inorder(node):
+   def __inorder(node):
       lst = []
       if node is not None:
-         lst.extend(Treap._inorder(node.left))
+         lst.extend(Treap.__inorder(node.left))
          lst.append(node.value)
-         lst.extend(Treap._inorder(node.right))
+         lst.extend(Treap.__inorder(node.right))
 
       return lst
 
    @staticmethod
-   def _preorder(node):
+   def __preorder(node):
       lst = []
       if node is not None:
          lst.append(node.value)
-         lst.append(Treap._preorder(node.left))
-         lst.append(Treap._preorder(node.right))
+         lst.append(Treap.__preorder(node.left))
+         lst.append(Treap.__preorder(node.right))
 
       return lst
 
