@@ -65,10 +65,8 @@ class Treap(object):
       if A is None: return +1
       if B is None: return -1
 
-      if A.priority < B.priority:
-         return -1
-      else:
-         return +1
+      return A.priority - B.priority
+
 
    @staticmethod
    def _contains(node, value):
@@ -106,10 +104,10 @@ class Treap(object):
          node.left = Treap._delete(node.left, value)
       elif node.value < value:
          node.right = Treap._delete(node.right, value)
-      elif Treap.cmp(node.left, node.right) == +1: 
+      elif Treap.cmp(node.left, node.right) > 0: 
          node = Treap._rotateLeft(node)
          node.left = Treap._delete(node.left, value)
-      elif Treap.cmp(node.left, node.right) == -1:
+      elif Treap.cmp(node.left, node.right) < 0:
          node = Treap._rotateRight(node)
          node.right = Treap._delete(node.right, value)
       else:
