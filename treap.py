@@ -24,9 +24,9 @@ class Treap(object):
    def __init__(self):
       self.root = None
 
-   def insert(self, value):
+   def insert(self, value, priority=None):
       if not self.contains(value):
-         self.root = Treap._insert(self.root, value)
+         self.root = Treap._insert(self.root, value, priority)
 
    def inorder(self):
       return Treap._inorder(self.root)
@@ -69,16 +69,16 @@ class Treap(object):
       return True
 
    @staticmethod
-   def _insert(node, value):
+   def _insert(node, value, priority=None):
       if node is None:
-         return TreapNode(value)
+         return TreapNode(value, priority)
 
       if node.value < value:
-         node.right = Treap._insert(node.right, value)
+         node.right = Treap._insert(node.right, value, priority)
          if node.right.priority > node.priority:
             node = Treap._rotateLeft(node)
       else:
-         node.left  = Treap._insert(node.left,  value)
+         node.left  = Treap._insert(node.left,  value, priority)
          if node.left.priority > node.priority:
             node = Treap._rotateRight(node)
 
