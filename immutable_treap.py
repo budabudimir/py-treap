@@ -63,7 +63,7 @@ class ImmutableTreap(Treap):
       return new
 
    @staticmethod
-   def __delete(node, value, create=True):
+   def __delete(node, value):
       if node.left is None and node.right is None:
          return None
 
@@ -76,11 +76,11 @@ class ImmutableTreap(Treap):
       elif Treap.cmp(node.left, node.right) > 0:
          new.right = TreapNode(node=new.right)
          new = Treap.__rotateLeft(new)
-         new.left = ImmutableTreap.__delete(new.left, value, False)
+         new.left = ImmutableTreap.__delete(new.left, value)
       else:
          new.left = TreapNode(node=new.left)
          new = Treap.__rotateRight(new)
-         new.right = ImmutableTreap.__delete(new.right, value, False)
+         new.right = ImmutableTreap.__delete(new.right, value)
 
       return new
 
